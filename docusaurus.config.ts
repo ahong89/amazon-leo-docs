@@ -80,8 +80,12 @@ const config: Config = {
           title: 'Style Spec',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Documentation',
+              to: '/documentation/intro',
+            },
+            {
+              label: 'Contribution Guidelines',
+              to: '/contribution/intro',
             },
           ],
         },

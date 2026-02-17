@@ -124,4 +124,5 @@ into the `type` field in the detail dict and then a nested if statement would be
 
 Additionally the `location` field did not serve any purpose in this case however there may be instances where
 you want to specify multiple constants to further specify information about the error that can be handled
-programmatically easily.
+programmatically easily. Also the `message` field is not used in the program since it is primarily there to be
+read by the developer when debugging.
