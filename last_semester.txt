@@ -1,0 +1,401 @@
+Amazon Kuiper Team Contributing Guidelines
+This is a document which contains all the current guidelines for contributing to the Amazon Kuiper Team with App Dev Club. It is subject to change over the course of the semester and everyone is highly encouraged to reference the document as needed.
+Overall Tech Stack/Architecture
+Still undecided however for the time being this is what can be expected:
+Frontend
+React
+Tailwind
+Bun
+Backend
+FastAPI
+Pydantic
+SQL Alchemy
+Database
+PostgreSQL
+AWS s3
+Deployment
+Docker
+ECS or EKS and probably Sage Maker
+Github actions
+
+Coding Style Guidelines
+Typescript will be two spaced tabs (no \t characters)
+Python will be four spaced tabs (no \t characters)
+Always use leading commas, i.e.
+dict = {
+	key: 5,
+	key2: 4, // <-- this one
+}
+
+Typescript/React:
+These style expectations are loosely based on Google Typescript’s Style Guide. If there is a detail which directly contradicts the style guidelines there will be red text to denote such.
+
+Imports
+Do not use default exports, consider:
+// Use named exports:
+export class Foo { ... }
+
+// Do not use default exports:
+export default class Foo { ... } // BAD!
+
+The purpose of this is to make sure that import statements are consistent
+import Foo from './bar';  // This would work
+import Bar from './bar';  // This would work too (problem!)
+
+
+
+Do not use mutable exports, i.e.:
+export let foo = 3;
+// In pure ES6, foo is mutable and importers will observe the value change after a second.
+// In TS, if foo is re-exported by a second file, importers will not see the value change.
+
+Instead use something like this
+let foo = 3;
+// Use an explicit getter to access the mutable export.
+export function getFoo() { return foo; };
+
+
+
+Always annotate type exports and imports:
+import type {Foo} from './foo';
+import {Bar} from './foo';
+
+and
+export type {AnInterface} from './foo';
+
+
+Ordering of imports
+Overall: React builtin, external imports, internal imports
+Within internal imports order as such: components, util functions/api calls, images
+import React from 'react';
+
+import { PropTypes } from 'prop-types';
+import styled from 'styled-components/native';
+
+import ErrorImg from '../../assets/images/error.png';
+import colors from '../../styles/colors';
+
+Language Features
+Always use const or let to declare variables. Use const by default, unless a variable needs to be reassigned. Never use var.
+const foo = otherValue;  // Use if "foo" never changes.
+let bar = someValue;     // Use if "bar" is ever assigned into later on.
+
+
+
+Use semicolons for statements, not for class or class method declarations
+class Foo {
+  doThing() {
+    console.log("A"); // <-- use this one
+  }; // <-- unnecessary
+}
+
+
+
+General preference for function expressions as opposed to arrow functions.
+function foo() { // preferred
+  return 42;
+}
+const foo = () => 42; // not preferred
+
+When passing in a callback however arrow function is always used (this includes react event handlers)
+const numbers = ['11', '5', '3'].map((n) => parseInt(n));
+
+
+
+Always try to avoid vanilla javascript event listeners as using in tandem with react state variables can lead to unexpected issues. (This is not always possible to avoid)
+window.addEventListener('onbeforeunload', e => doSomething());
+
+
+
+Use single quotes unless there is a specific reason to use double quotes and always opt to use backtick template strings as needed
+'Double quotes are not needed in this string literal'
+"We need some double quotes because 'there are single quotes'"
+`Template literal: ${value}`
+
+
+
+Always use braces in control blocks unless it can fit in one line
+for (let i = 0; i < x; i++) { // Use braces even for one line
+  doSomethingWith(i);
+}
+if (x) {
+  doSomethingWithALongMethodNameThatForcesANewLine(x);
+}
+if (x) x.doFoo(); // Short so acceptable
+
+
+
+Imperative vs. Functional style programming
+Always opt to use a functional style if it is not overly tedious to do so, i.e.:
+numbers = [1, 2, 3, 4];
+for (const x of numbers) { // Not needed
+	console.log(x * 2);
+}
+numbers.map((x) => console.log(x*2)); // Preferred
+
+
+
+Always use strict equality === & !== to avoid unexpected bugs, unless there is supposed to be type flexibility
+
+Typing Specific Details
+Never use ‘as’ assertation, it just silences the compiler instead use an if statement to do type assertation
+if (!(x instance of Foo)) throw new Error('bad type');
+
+
+
+Use ‘:’ as opposed to ‘as’, this is because typescript compiler does not enforce type checking over records with ‘as’
+const foo = {
+  bar: 123,
+  bam: 'abc',  // bad!
+} as Foo;
+
+const foo: Foo = {
+  bar: 123,
+  bam: 'abc',  // good! Will throw error if wrong
+};
+
+
+
+Always prefer interfaces over type alias for object literals for sake of consistency and reusability
+interface User { // good!
+  firstName: string;
+  lastName: string;
+}
+type User = { // bad!
+  firstName: string,
+  lastName: string,
+}
+
+
+
+Never use ‘any’ unless there is a specific reason which should always be documented with a comment, consider using unknown if appropriate
+Never use wrapper types i.e. (String, Boolean, Number)
+
+
+Error handling
+Only throw (subclass of) Error
+// Throw only Errors (also always include new keyword for consistency)
+throw new Error('oh noes!');
+
+
+
+Always limit the amount of code in a try block
+try { // bad!
+  const result = methodThatMayThrow();
+  use(result);
+} catch (error: unknown) {
+  // ...
+}
+
+let result;
+try { // good!
+  result = methodThatMayThrow();
+} catch (error: unknown) {
+  // ...
+}
+use(result);
+
+
+In a catch block, always try to provide additional context that would help someone debugging later have more information than they would just by looking at the stack trace
+ throw new Error(`Failed to fetch user with id=${id}: ${(err).message}`);
+
+
+Naming:
+Treat abbreviations as whole words (applies to python as well)
+let loadHttpUrl = 'url here' // good!
+let loadHTTPURL = 'url here' // bad
+
+
+
+Identifier rules
+UpperCamelCase
+Class
+Interface
+Type
+Enum
+Component functions in TSX
+lowerCamelCase
+Variable
+Parameter
+Function
+Method
+Props
+
+File naming rules
+Component tsx files → UpperCamelCase
+Custom hooks → “useHookName” (lowerCamelCase)
+All other files → kebab-case
+
+Note: since python will use snake_case, it is okay to use snake_case when referring to keys directly from a request to the backend, however this is only if it directly used, if there is some data transformation involved, always switch to lowerCamelCase
+
+React specific
+Always use react function component as opposed to class component
+Read if unfamiliar
+
+Always use axios instead of fetch
+Documentation
+
+Using await for requests vs. promise syntax
+Default is using await syntax since it is generally cleaner.
+Exceptions:
+A useEffect where it is just simpler to not have to make an async arrow function inside of the useEffect since you can’t make the useEffect arrow function async
+Python:
+Language Features
+Accessing dictionary values: Always use [] syntax instead of .get(), unless you are using .get()’s optional argument to specify a default value
+dict_name['key'] // good
+dict_name.get('key') // bad (same functionality as above)
+dict_name.get('key', 'default_value') // good!
+
+
+Naming Conventions
+snake_case
+Variables
+Functions
+
+UpperCamelCase
+Classes
+
+CAPITAL_SNAKE_CASE
+Constants
+
+_leading_snake_case
+Private class members
+
+Imports
+Generally use global imports to go backwards in an import instead of going backwards with .. unless the path is very long and would be much shorter with a local import.
+from app.file_name import xyz //good
+from ..file_name import xyz //bad
+
+Structuring API endpoints
+Generally the structure of endpoints should be as follows
+Destructuring query parameters, path parameters or request body
+Validating input to endpoint and returning errors if necessary
+Either calling abstracted business logic methods or making simple database queries
+Returning response
+# Destructuring of query parameters, path parameters or request body
+@app.get('/more_route/info/{item_id}', status_code=status.HTTP_200_OK)
+async def get_info(item_id: int) -> int:
+    # Validate input
+    if not valid(item_id):
+        raise HTTPException(
+status_code=status.HTTP_404_NOT_FOUND, error='Item id is invalid')
+    # Perform business logic
+    result = perform_action(item_id)
+    # Return expected result
+    return result
+
+Notes
+Always type hint all input and output for API endpoints (primarily for auto generated fastAPI docs)
+Utilizing HTTPException class for raising error about invalid input
+The final expected result is not inside some ‘data’ key in dictionary
+All status codes are utilizing FastAPI’s ‘status’ class for readability
+Parts of the route which are multiple words are delimited with _’s (i.e. more_route)
+
+We will always adhere to using the correct HTTP method, for more information read here (please know difference between POST, PUT & PATCH)
+Fast API Specific
+Always put all API input in the parameter of the method i.e. (unless there is only one field):
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, payload: Item, q: str | None = None):
+
+In the above example, item_id is a url parameter, payload is a request body (of type Item) and q is a query parameter. For request body always use a developer-defined subclass of pydantic’s BaseModel. If there is a single body field then name it payload.
+Git Standards
+Branching Strategy
+The default branch will be main which should always be stable and deployable. Changes to main can only occur through PRs
+
+Branch naming:
+feature/new-feature → corresponds with any new feature that did not exist previously
+bugfix/bug-name → a bugfix
+experiment/experiment-name → for code that won’t get merged in and is just testing out things
+docs/specific-part → for adding documentation for something
+chore/update-route-names → for routine tasks, maintenance or small changes such as updating naming
+refactor/part-of-app → for refactoring a specific part of the codebase
+test/specific-functionality → for adding or improving tests
+
+If a branch is required in multiple repos, please keep the name of the branch of each repo the same for consistency.
+If there is a bug which does not impact the development of the feature of a branch, do not fix it in that branch. Keep all changes of a single branch for the purpose of the branch, i.e. every single change in a branch should be intentional and purposeful. This includes reformatting badly formatted code.
+Pull Requests + Code Reviews
+When making a PR, required details:
+Changes to dependencies and purpose for example:
+Axios: added for making requests to backend
+Any known issues
+If feature has complicated implementation that has not been discussed, overview of functionality
+
+Before making a PR, always merge with main prior and test, it is the individual developer’s responsibility to stay up to date with main and deal with merge conflicts with their features.
+General Practices
+Sync with main often if the development of a feature is prolonged.
+Documentation Standards
+Documentation Software
+The documentation will be maintained in various levels on Github. The planning repo contains the ADC-x-Amazon 2025 Roadmap, which we will be using to track the development of the project. Each development repository (frontend, backend, ML) will contain a docs/ folder for further documentation.
+Repo Structure
+frontend/
+	docs/
+		README.md → contains instructions for what needs to go in each file
+		components.md  → documentation for components
+		architecture.md  → structural overview/system design
+		design-decisions.md → any overarching design decisions that don’t fit in another file
+		setup.md → any notes about setup
+		test.md → notes about test coverage
+backend/
+	docs/
+		README.md → instructions
+		api.md → endpoint documentation 
+		architecture.md  → backend system design
+		design-decisions.md → overarching design notes
+setup.md → any notes about setup	
+test.md → notes about test coverage
+ml/
+docs/
+README.md → instructions
+design-decisions.md → why a certain model/approach
+data.md → preprocessing, sources of data
+results.md → links to notebooks along with general results
+test.md → notes about test coverage
+What to Include 
+Frontend:
+Document components (bullet points)
+Why did we choose to create this specific component? → Design choice
+What is this component used for? 
+If relevant: why this and not something else - what was the thought process behind it?
+Does this component take props? 
+What props? List name, type, default, required/optional
+Why those props? 
+Dependencies? → what does this component depend on? Libraries or other components
+If relevant, include an example usage with a small snippet of code.
+Diagram the flow of information 
+How do these components interact with one another? 
+
+Backend:
+Document API endpoints
+What does this endpoint do? 
+Why did we choose to have it? 
+If relevant: why this implementation and not something else? 
+Endpoint details: method, path, description
+If relevant: request and response schema
+Dependencies? Any other endpoints/libraries, or external APIs
+Diagram the flow of information 
+What are these endpoints doing with information?
+If the backend is running, you should be able to go to <url>/docs and pull up the FastAPI docs which have most of this done already, note down the important information from there.
+
+ML:
+Link to colab/jupyter notebooks 
+Add text in between code blocks of jupyter notebooks:
+What does this next code section do?
+Why are we doing that?
+How does it affect the big picture?
+Note any external APIs being used 
+Explain why
+Note inputs/outputs → what data goes in, what is produced
+Summarize key results in a final cell at the bottom 
+Track versions in the results section if possible
+
+
+
+
+Miscellaneous
+n/a
