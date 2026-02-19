@@ -5,12 +5,25 @@ sidebar_position: 5
 
 # Error Handling
 This doc is structured to discuss how error handling is done at different levels of abstraction
-from the router level to the service level.
+from the router level to the service level. This doc is largely based off of this [article](https://medium.com/delivus/exception-handling-best-practices-in-python-a-fastapi-perspective-98ede2256870).
+Feel free to read from there if you want more background and reasoning for these error handling
+patterns. 
 
 ## Background
-Router Level Logic: Code that exposes an API endpoint.
-Business/Service Level Logic: Code that implements the functionality behind the API, independent
+
+### Abstraction Levels
+- Router Level: Code that exposes an API endpoint.  
+- Business/Service Level: Code that implements the functionality behind the API, independent
 of the web framework.
+- Helper Level: Code that provides reusable abstractions for tasks such as database operations.
+
+To summarize how error handling is done is that the router level will raise HTTP exception,
+the service level will raise custom exceptions which return `ErrorContext` and the helper level
+just raises whatever exception is needed. You may be wondering, why doesn't just every abstraction
+level raise an HTTP exception and let it propogate up the stack? The reasoning for this
+is that the service level and helper level are independent of the web framework so that it can
+more easily be unit tested. Also there may be situations where not enough context exists where
+the error occurs and more context is available at the service/route level.
 
 ### `ErrorContext`
 ErrorContext encapsulates error information in a consistent structure, allowing the frontend to
