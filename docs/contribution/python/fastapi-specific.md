@@ -40,13 +40,14 @@ async def get_info(item_id: int) -> int:
     if not valid(item_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=ErrorContext("Item does not exist", "INVALID_ID", []), # more info in Error Handling
+            detail=ErrorContext("Item does not exist", "invalid_id", []),
         )
     # Perform business logic
     result = perform_action(item_id)
     # Return expected result
     return result
 ```
+Note: `ErrorContext` is a pydantic class which is discussed in more detail in [Error Handling](./error-handling.md). 
 
 Essentially the idea is the purpose of the route code is primarily just to process input and most
 of the actual logic is performed elsewhere. 
