@@ -33,7 +33,7 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/ahong89/amazon-leo-docs',
         },
         theme: {
           customCss: './src/css/custom.css',
