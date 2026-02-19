@@ -49,6 +49,25 @@ for name, score in zip(names, scores):
     print(f"{name}: {score}")
 ```
 
+### 5. Default Mutable Arguments
+Never use default mutable arguments.
+```python
+def add_to_list(num: int, lst: list[int] = []): # lst default value is [] which is mutable
+    lst.append(num)
+    return lst
+add_to_list(5) # returns [5]
+add_to_list(6) # return [5, 6]
+```
+The default value keeps accumulating since it's mutable which is unexpected and can lead to
+difficult to debug bugs. Instead:
+```python
+def add_to_list(num: int, lst: list[int] | None = None):
+    if not lst:
+        lst = []
+    lst.append(num)
+    return lst
+```
+
 ## Typing
 Typing is a smaller language feature for Python when compared to Typescript so instead of
 getting it's own typing page as Typescript did, it is a subsection of language features.

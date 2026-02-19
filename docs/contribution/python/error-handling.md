@@ -44,6 +44,13 @@ insight on the error.
 `location` - contains info about the error that cannot be addressed in the `type` field. For
 example, this could include a list of inputs that were in the route payload which are invalid.  
 
+### Custom Errors
+Custom errors that are required to return an `ErrorContext` object must all inherit from `BaseError`
+which includes some boilerplate. An example of a custom error class is available below under the
+`Service Level` section.
+
+All custom errors must end with the word `Error`. (`MultipleLoginsError`, `ValidationError`)
+
 ## Router Level
 As discussed in [FastAPI specific guidelines](./fastapi-specific.md), the router itself is
 not responsible for the business logic. Therefore the responsibility of the router in terms of
