@@ -6,9 +6,9 @@ sidebar_position: 2
 # Naming
 
 ## File & Folder Naming rules
-Component tsx files: UpperCamelCase  
-Custom Hooks: lowerCamelCase (i.e. useHookname)  
-All other files and folders: kebab-case (i.e. util files)  
+Component tsx files: `UpperCamelCase`  
+Custom Hooks: `lowerCamelCase` (i.e. useHookname)  
+All other files and folders: `kebab-case` (i.e. util files)  
 
 ## Identifier Rules
 :::note Identifier Naming Conventions

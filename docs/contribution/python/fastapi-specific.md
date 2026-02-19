@@ -50,6 +50,6 @@ async def get_info(item_id: int) -> int:
 1. Type hint all inputs and outputs for FastAPI endpoints (supports auto-generated docs).
 2. Use `HTTPException` for invalid input errors.
 3. Do not wrap the final result in a `data` key.
-4. Use FastAPI's `status` class for status codes.
+4. Use FastAPI's `status` class for status codes for consistency and readability.
 5. Use `_` to separate multiple words in route segments (e.g., `more_route`).
 6. Always use the correct HTTP method (know the difference between POST, PUT, and PATCH).

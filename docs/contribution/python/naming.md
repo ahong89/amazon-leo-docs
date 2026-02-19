@@ -5,8 +5,10 @@ sidebar_position: 2
 # Naming
 
 ## Conventions
-Use `snake_case` for variables and functions. Use `UpperCamelCase` for classes. Use
-`CAPITAL_SNAKE_CASE` for constants. Use `_leading_snake_case` for private class members.
+Use `snake_case` for variables, functions, files and folders.  
+Use `UpperCamelCase` for classes.  
+Use `CAPITAL_SNAKE_CASE` for constants.  
+Use `_leading_snake_case` for private class members.  
 
 ## Abbreviations
 Always treat abbreviations like words.
