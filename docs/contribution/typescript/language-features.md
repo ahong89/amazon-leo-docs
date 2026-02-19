@@ -4,7 +4,7 @@ sidebar_position: 3
 ---
 
 # Language Features
-The following expectations on usage of language features are vaguely based off of google"s
+The following expectations on usage of language features are vaguely based off of google's
 typescript [guide](https://google.github.io/styleguide/tsguide.html).
 
 ## General
@@ -28,7 +28,7 @@ const foo = () => 42; // not preferred
 When passing in a callback however arrow function is always used (this includes react event handlers),
 given that a function doesn't already exist for this function.
 ```typescript
-const numbers = ['11', '5', '3'].map((n) => parseInt(n));
+const numbers = ["11", "5", "3"].map((n) => parseInt(n));
 ```
 
 ### 3. Template Literals
@@ -45,7 +45,7 @@ for (const x of numbers) { // Ok but not preferred
 	console.log(x * 2);
 }
 
-numbers.map((x) => console.log(x*2)); // Preferred
+numbers.map((x) => console.log(x * 2)); // Preferred
 ```
 This overall leads to less bugs with the way that react state handling works since set state requires
 that a new object get passed in and sometimes imperatively changing it instead of passing in an arrow

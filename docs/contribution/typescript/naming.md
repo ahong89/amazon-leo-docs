@@ -6,26 +6,22 @@ sidebar_position: 2
 # Naming
 
 ## File & Folder Naming rules
-Component tsx files: `UpperCamelCase`  
-Custom Hooks: `lowerCamelCase` (i.e. useHookname)  
-All other files and folders: `kebab-case` (i.e. util files)  
+- **Components (`.tsx`)** → `UpperCamelCase`  
+  *Example:* `UserProfile.tsx`
+
+- **Custom Hooks** → `camelCase` prefixed with `use`  
+  *Example:* `useAuth.ts`, `useTabs.ts`
+
+- **Other files & folders** → `kebab-case`  
+  *Example:* `auth-service.ts`, `api-client.ts`
 
 ## Identifier Rules
-:::note Identifier Naming Conventions
-**UpperCamelCase identifiers:**
-- Class  
-- Interface  
-- Type  
-- Enum  
-- Component functions in TSX  
 
-**lowerCamelCase identifiers:**
-- Variable  
-- Parameter  
-- Function  
-- Method  
-- Props  
-:::
+- `UpperCamelCase` → Classes, Interfaces, Types, Enums, React components  
+  *Example:* `MapPage`, `AlertProps`, `GeoJsonObject`
+
+- `camelCase` → Variables, Parameters, Functions, Methods, Props  
+  *Example:* `onConfirm`, `isEditable`
 
 **Note:** since python will use snake_case, it is okay to use snake_case when referring to keys
 directly from a request to the backend. However this is only if it directly used, if there is

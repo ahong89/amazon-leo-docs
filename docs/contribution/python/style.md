@@ -46,11 +46,4 @@ Inner single quotes `'` are acceptable
 dict["key"] # even in dictionary key accessing " is used
 ```
 
-## Imports
-Prefer absolute imports over relative imports when possible. Use relative imports only when the
-path would be overly long.
 
-```python
-from app.file_name import xyz  # good
-from ..file_name import xyz  # avoid when possible
-```

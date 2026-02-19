@@ -14,7 +14,7 @@ bad-practice of typing is required than it should be denoted in a PR description
 ## 1. Assertions
 Rarely use ‘as’ assertation, it just silences the compiler instead use an if statement to do type assertation.
 ```typescript
-if (!(x instance of Foo)) throw new Error('bad type');
+if (!(x instance of Foo)) throw new Error("bad type");
 ```
 
 ## 2. Typing records
@@ -23,13 +23,13 @@ checking over records with ‘as’.
 ```typescript
 const foo = {
   bar: 123,
-  bam: 'abc',  // bad!
-} as Foo;
+  bam: "abc",
+} as Foo; // bad!
 
 const foo: Foo = {
   bar: 123,
-  bam: 'abc',  // good! Will throw error if wrong
-};
+  bam: "abc",
+}; // good! Will throw error if wrong
 ```
 
 Always use interfaces over the type alias for consistency. They are the same however we must pick one :)

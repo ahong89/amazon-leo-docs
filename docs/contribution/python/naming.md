@@ -5,10 +5,14 @@ sidebar_position: 2
 # Naming
 
 ## Conventions
-Use `snake_case` for variables, functions, files and folders.  
-Use `UpperCamelCase` for classes.  
-Use `CAPITAL_SNAKE_CASE` for constants.  
-Use `_leading_snake_case` for private class members.  
+
+| Use Case                | Convention             | Example              |
+|-------------------------|------------------------|----------------------|
+| Variables / Functions   | `snake_case`           | `status_code`        |
+| Files / Folders         | `snake_case`           | `auth_service.py`    |
+| Classes                 | `UpperCamelCase`       | `DynamoDb`           |
+| Constants               | `CAPITAL_SNAKE_CASE`   | `MAX_RETRIES`        |
+| Private Class Members   | `_leading_snake_case`  | `_internal_state`    |
 
 ## Abbreviations
 Always treat abbreviations like words.
